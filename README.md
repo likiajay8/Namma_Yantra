@@ -12,6 +12,7 @@ Customers can browse and request machines nearby
 The backend (app.py) includes major Bangalore areas like Whitefield, Hoskote, KR Puram, Devanahalli, and Chikkabanavara with their latitude and longitude for distance-based sorting.
 
 🚀 Features
+
 🔐 User Authentication
 Login using mobile number
 OTP system (OTP = last 4 digits of mobile number)
