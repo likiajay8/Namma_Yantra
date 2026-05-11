@@ -14,37 +14,65 @@ The backend (app.py) includes major Bangalore areas like Whitefield, Hoskote, KR
 🚀 Features
 
 🔐 User Authentication
+
 Login using mobile number
+
 OTP system (OTP = last 4 digits of mobile number)
 
 ➕ Add Machine
+
 Add machine details:
+
 Name
+
 Machine Company
+
 Price per hour
+
 Location (Bangalore areas)
+
 Condition
+
 Select service options:
+
 🚚 Delivery (owner delivers machine)
+
 📍 Pickup (customer collects machine)
 
 🔍 Browse Machines
+
 View available machines in Bangalore
+
 Machines added by the logged-in user are hidden from their own view
+
 Sort options:
+
 💰 Sort by Price
+
 📍 Sort by Distance (based on user location)
+
 🧑‍🌾 My Machines
+
 View machines added by the logged-in user
+
 Toggle availability:
+
 ✅ ON → visible to customers
+
 ❌ OFF → hidden from browse
+
 Shows all details except location
+
 🛒 Request / Order Flow (Cart-like System)
+
 User selects a machine → goes to request page
+
 Enter number of hours
+
 System calculates total price
+
 Select service mode:
+
 Delivery or Pickup
 Click Confirm Order to place request
 
