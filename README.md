@@ -13,11 +13,13 @@ The backend (app.py) includes major Bangalore areas like Whitefield, Hoskote, KR
 
 🚀 Features
 
+
 🔐 User Authentication
 
 Login using mobile number
 
 OTP system (OTP = last 4 digits of mobile number)
+
 
 ➕ Add Machine
 
@@ -39,6 +41,7 @@ Select service options:
 
 📍 Pickup (customer collects machine)
 
+
 🔍 Browse Machines
 
 View available machines in Bangalore
@@ -50,6 +53,7 @@ Sort options:
 💰 Sort by Price
 
 📍 Sort by Distance (based on user location)
+
 
 🧑‍🌾 My Machines
 
@@ -63,6 +67,7 @@ Toggle availability:
 
 Shows all details except location
 
+
 🛒 Request / Order Flow (Cart-like System)
 
 User selects a machine → goes to request page
@@ -74,23 +79,41 @@ System calculates total price
 Select service mode:
 
 Delivery or Pickup
+
 Click Confirm Order to place request
 
 👉 Payment is not implemented (demo purpose), but total cost is displayed.
 
+
+
 📦 Orders System
+
 Customers can request machines
+
 Owners can view requests in My Orders
+
 Each order shows:
+
 Machine name
+
 Customer mobile number
+
 Duration (hours)
+
 Delivery/Pickup mode
+
+
 🛠️ Tech Stack
+
 Backend: Python (Flask)
+
 Frontend: HTML, CSS, Jinja2
+
 Database: SQLite
+
 Location Logic: Haversine Formula
+
+
 📂 Project Structure
 project/
 │
@@ -106,6 +129,8 @@ project/
 │   ├── orders.html
 │
 └── static/
+
+
 ⚙️ Installation & Setup
 1. Clone the repository
 git clone <your-repo-link>
