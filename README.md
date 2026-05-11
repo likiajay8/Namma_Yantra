@@ -16,6 +16,7 @@ The backend (app.py) includes major Bangalore areas like Whitefield, Hoskote, KR
 🔐 User Authentication
 Login using mobile number
 OTP system (OTP = last 4 digits of mobile number)
+
 ➕ Add Machine
 Add machine details:
 Name
@@ -26,6 +27,7 @@ Condition
 Select service options:
 🚚 Delivery (owner delivers machine)
 📍 Pickup (customer collects machine)
+
 🔍 Browse Machines
 View available machines in Bangalore
 Machines added by the logged-in user are hidden from their own view
