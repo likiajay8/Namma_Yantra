@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+    <h1>Requests For My Machines</h1>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Machine</th>
+                    <th>Customer mobile</th>
+                    <th>Days</th>
+                    <th>Dates</th>
+                    <th>Mode</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in owner_orders %}
+                    <tr>
+                        <td>{{ order.machine_name }}</td>
+                        <td>{{ order.customer_mobile }}</td>
+                        <td>{{ order.days }}</td>
+                        <td>{{ order.selected_dates or "Old order" }}</td>
+                        <td>{{ order.service_mode }}</td>
+                        <td>Rs. {{ "%.0f"|format(order.total_price) }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6">No customer requests yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="panel">
+    <h1>My Requests</h1>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Machine</th>
+                    <th>Company</th>
+                    <th>Owner Mobile</th>
+                    <th>Days</th>
+                    <th>Dates</th>
+                    <th>Mode</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in customer_orders %}
+                    <tr>
+                        <td>{{ order.machine_name }}</td>
+                        <td>{{ order.company }}</td>
+                        <td>{{ order.owner_mobile }}</td>
+                        <td>{{ order.days }}</td>
+                        <td>{{ order.selected_dates or "Old order" }}</td>
+                        <td>{{ order.service_mode }}</td>
+                        <td>Rs. {{ "%.0f"|format(order.total_price) }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6">You have not requested any machines yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

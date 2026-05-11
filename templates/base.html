@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Namma-Yantra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="{{ url_for('home') }}">Namma-Yantra</a>
+        <nav>
+            {% if user %}
+                <a href="{{url_for('home')}}">Home</a>
+                <a href="{{url_for('profile')}}">Profile</a>
+                <a href="{{ url_for('browse') }}">Browse</a>
+                <a href="{{ url_for('list_machine') }}">Add Machine</a>
+                <a href="{{ url_for('my_machines') }}">My Machines</a>
+                <a href="{{ url_for('orders') }}">Orders</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="page">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

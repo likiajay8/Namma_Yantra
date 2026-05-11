@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+    <h1>Add Machine</h1>
+    <form method="post" enctype="multipart/form-data" class="form two-col">
+        <label>Machine name
+            <input name="name" required placeholder="Tractor">
+        </label>
+        <label>Machine company
+            <input name="company" required placeholder="Mahindra">
+        </label>
+        <label>Price per day
+            <input name="price_per_day" type="number" min="1" step="1" required placeholder="2500">
+        </label>
+        <label>Location
+            <select name="location" required>
+                {% for area in areas %}
+                    <option value="{{ area }}">{{ area }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Condition
+            <select name="condition" required>
+                {% for condition in conditions %}
+                    <option value="{{ condition }}">{{ condition }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Machine Photos
+            <input type="file" name="photos" multiple accept="image/*">
+        </label>
+        
+        <fieldset>
+            <legend>Service options</legend>
+            <label class="check"><input type="checkbox" name="delivery"> Delivery</label>
+            <label class="check"><input type="checkbox" name="pickup" checked> Pickup</label>
+        </fieldset>
+        <button class="button" type="submit">Add Machine</button>
+    </form>
+</section>
+{% endblock %}

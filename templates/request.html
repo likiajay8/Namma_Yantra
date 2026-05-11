@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel narrow">
+    <h1>Request {{ machine.name }}</h1>
+    <p class="muted">{{ machine.company }} - Rs. {{ "%.0f"|format(machine.price_per_day) }} per day</p>
+    <form method="post" class="form">
+        <label>Number of days
+            <input id="days" name="days" type="number" min="1" max="30" value="1" required>
+        </label>
+        <div>
+            <label>Calendar dates</label>
+            <input type="hidden" id="selectedDatesInput" name="selected_dates" required>
+            <div class="calendar-tools">
+                <span id="calendarStatus">Select 1 date.</span>
+                <button class="button small secondary" id="clearDates" type="button">Clear</button>
+            </div>
+            <div id="bookingCalendar" class="calendar-grid"></div>
+            <p class="error-text" id="calendarError"></p>
+        </div>
+        <label>Service mode
+            <select name="service_mode">
+                {% for mode in available_modes %}
+                    <option value="{{ mode }}">{{ mode }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <p class="total">Estimated total: Rs. <span id="total">{{ "%.0f"|format(machine.price_per_day) }}</span></p>
+        <button class="button" type="submit">Confirm Order</button>
+    </form>
+</section>
+
+<script>
+    const days = document.querySelector("#days");
+    const total = document.querySelector("#total");
+    const price = {{ machine.price_per_day|int }};
+    const bookedDates = new Set({{ booked_dates|tojson }});
+    const selectedDates = new Set();
+    const calendar = document.querySelector("#bookingCalendar");
+    const selectedDatesInput = document.querySelector("#selectedDatesInput");
+    const statusText = document.querySelector("#calendarStatus");
+    const errorText = document.querySelector("#calendarError");
+    const clearDates = document.querySelector("#clearDates");
+
+    function requiredDays() {
+        return Math.max(1, Number(days.value || 1));
+    }
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+
+    function updateState() {
+        const required = requiredDays();
+        total.textContent = required * price;
+        selectedDatesInput.value = Array.from(selectedDates).sort().join(",");
+        statusText.textContent = `Selected ${selectedDates.size} of ${required} date${required === 1 ? "" : "s"}.`;
+        document.querySelectorAll(".date-cell.selected").forEach((button) => {
+            if (!selectedDates.has(button.dataset.date)) button.classList.remove("selected");
+        });
+    }
+
+    function buildCalendar() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        calendar.innerHTML = "";
+        for (let index = 0; index < 60; index += 1) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + index);
+            const isoDate = formatDate(date);
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "date-cell";
+            button.dataset.date = isoDate;
+            button.innerHTML = `<strong>${date.getDate()}</strong><span>${date.toLocaleDateString("en-IN", { month: "short" })}</span>`;
+            if (bookedDates.has(isoDate)) {
+                button.classList.add("booked");
+                button.title = "Already booked for this day";
+            }
+            button.addEventListener("click", () => {
+                errorText.textContent = "";
+                if (bookedDates.has(isoDate)) {
+                    errorText.textContent = "This machine is already booked for that day.";
+                    return;
+                }
+                if (selectedDates.has(isoDate)) {
+                    selectedDates.delete(isoDate);
+                    button.classList.remove("selected");
+                } else if (selectedDates.size < requiredDays()) {
+                    selectedDates.add(isoDate);
+                    button.classList.add("selected");
+                } else {
+                    errorText.textContent = `You selected ${requiredDays()} day(s), so only ${requiredDays()} date(s) can be chosen.`;
+                }
+                updateState();
+            });
+            calendar.appendChild(button);
+        }
+    }
+
+    days.addEventListener("input", () => {
+        while (selectedDates.size > requiredDays()) {
+            selectedDates.delete(Array.from(selectedDates).sort().pop());
+        }
+        updateState();
+    });
+
+    clearDates.addEventListener("click", () => {
+        selectedDates.clear();
+        document.querySelectorAll(".date-cell.selected").forEach((button) => button.classList.remove("selected"));
+        errorText.textContent = "";
+        updateState();
+    });
+
+    document.querySelector("form").addEventListener("submit", (event) => {
+        if (selectedDates.size !== requiredDays()) {
+            event.preventDefault();
+            errorText.textContent = "Please select the same number of calendar dates as requested days.";
+        }
+    });
+
+    buildCalendar();
+    updateState();
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel narrow">
+    <h1>Login</h1>
+    <p class="muted">For demo use, OTP is the last 4 digits of your mobile number.</p>
+    <form method="post" class="form">
+        <label>Mobile number
+            <input name="mobile" type="tel" pattern="[0-9]+" required placeholder="9876543210">
+        </label>
+        <label>OTP
+            <input name="otp" type="text" inputmode="numeric" required placeholder="3210">
+        </label>
+        <button class="button" type="submit">Login</button>
+    </form>
+</section>
+{% endblock %}

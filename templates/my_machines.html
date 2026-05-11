@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-head">
+    <div>
+        <h1>My Machines</h1>
+        <p class="muted">Availability controls whether customers can see a machine while browsing.</p>
+    </div>
+    <a class="button small" href="{{ url_for('list_machine') }}">Add Machine</a>
+</section>
+
+<section class="grid">
+    {% for machine in machines %}
+        <article class="card">
+            <div class="card-top">
+                <h2>{{ machine.name }}</h2>
+                <span>Rs. {{ "%.0f"|format(machine.price_per_day) }}/day</span>
+            </div>
+            <p class="muted">{{ machine.company }} - {{ machine.condition }}</p>
+            <p>
+                {% if machine.delivery %}<span class="tag">Delivery</span>{% endif %}
+                {% if machine.pickup %}<span class="tag">Pickup</span>{% endif %}
+            </p>
+            <form method="post" action="{{ url_for('toggle_machine', machine_id=machine.id) }}">
+                <button class="button block {{ 'secondary' if machine.available else '' }}" type="submit">
+                    {% if machine.available %}Available ON{% else %}Available OFF{% endif %}
+                </button>
+            </form>
+        </article>
+    {% else %}
+        <p class="empty">You have not added any machines yet.</p>
+    {% endfor %}
+</section>
+{% endblock %}

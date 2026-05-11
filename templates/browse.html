@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section-head">
+    <div>
+        <h1>Browse Machines</h1>
+        <p class="muted">Your own machines are hidden from this view.</p>
+    </div>
+    <form method="get" class="filters">
+        <select name="sort">
+            <option value="distance" {% if sort == "distance" %}selected{% endif %}>Sort by distance</option>
+            <option value="price" {% if sort == "price" %}selected{% endif %}>Sort by price</option>
+        </select>
+        <button class="button small" type="submit">Apply</button>
+    </form>
+</section>
+
+{% if sort == "distance" and not has_live_location %}
+    <section class="notice" id="locationNotice">
+        Allow location permission to sort machines by your current distance.
+    </section>
+{% endif %}
+
+<section class="grid">
+    {% for machine in machines %}
+        <article class="card">
+            <div class="card-top">
+                <h2>{{ machine.name }}</h2>
+                <span>Rs. {{ "%.0f"|format(machine.price_per_day) }}/day</span>
+            </div>
+            <div class="image-slider">
+
+                {% for image in machine.images.split(',') if image %}
+
+                    <img src="{{ url_for('static', filename='uploads/' + image) }}">
+
+                {% endfor %}
+
+            </div>
+            <p class="muted">{{ machine.company }} - {{ machine.condition }}</p>
+            <p>
+                {{ machine.location }}
+                {% if machine.distance is not none %}
+                    - {{ "%.1f"|format(machine.distance) }} km away
+                {% else %}
+                    
+                {% endif %}
+            </p>
+            <p>
+                {% if machine.delivery %}<span class="tag">Delivery</span>{% endif %}
+                {% if machine.pickup %}<span class="tag">Pickup</span>{% endif %}
+            </p>
+            <a class="button block" href="{{ url_for('request_machine', machine_id=machine.id) }}">Request</a>
+        </article>
+    {% else %}
+        <p class="empty">No available machines yet. Login as another mobile number and add one to test browsing.</p>
+    {% endfor %}
+</section>
+
+<script>
+    const sortSelect = document.querySelector("select[name='sort']");
+    const filterForm = document.querySelector(".filters");
+    const notice = document.querySelector("#locationNotice");
+
+    function requestLiveLocation() {
+        if (!navigator.geolocation) {
+            if (notice) notice.textContent = "Your browser does not support live location.";
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const url = new URL(window.location.href);
+                url.searchParams.set("sort", "distance");
+                url.searchParams.set("lat", position.coords.latitude);
+                url.searchParams.set("lon", position.coords.longitude);
+                window.location.href = url.toString();
+            },
+            () => {
+                if (notice) notice.textContent = "Location permission was denied. Distance sorting needs your live location.";
+            }
+        );
+    }
+
+    filterForm.addEventListener("submit", (event) => {
+        if (sortSelect.value === "distance") {
+            event.preventDefault();
+            requestLiveLocation();
+        }
+    });
+
+    {% if sort == "distance" and not has_live_location %}
+        requestLiveLocation();
+    {% endif %}
+</script>
+{% endblock %}

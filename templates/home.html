@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div style="padding: 15px 25px;">
+    <h3 style="margin:0; color:#143a13;">Home</h3>
+</div>
+<section class="hero">
+    <div>
+        <p class="eyebrow">Farm equipment rental</p>
+        <h1>Rent tractors, harvesters, and sprayers from nearby owners.</h1>
+        <p class="lead">A peer-to-peer machinery sharing platform built for small farmers around You.</p>
+        {% if not user %}
+            <a class="button" href="{{ url_for('login') }}">Start with mobile login</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid three">
+    <article>
+        <h3>Owners list machines</h3>
+        <p>Turn your idle machine into income. Add your machine and make it work for you. Help nearby farmers by sharing your machine.</p>
+    </article>
+    <article>
+        <h3>Customers browse nearby</h3>
+        <p>Find machines near you or at the price you are looking for and book instantly. Get the right machine for your farming needs.</p>
+    </article>
+    <article>
+        <h3>Requests stay simple</h3>
+        <p>Quick and easy booking — no complicated steps: Choose a machine → Enter days → Select option → Confirm order.</p>
+    </article>
+</section>
+{% endblock %}
