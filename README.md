@@ -124,19 +124,19 @@ project/
 
 ├── templates/
 
-│   ├── home.html
+  │   ├── home.html
 
-│   ├── login.html
+  │   ├── login.html
 
-│   ├── list.html
+  │   ├── list.html
 
-│   ├── browse.html
+  │   ├── browse.html
 
-│   ├── request.html
+  │   ├── request.html
 
-│   ├── my_machines.html
+  │   ├── my_machines.html
 
-│   ├── orders.html
+  │   ├── orders.html
 
 │
 
