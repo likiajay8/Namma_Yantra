@@ -117,17 +117,29 @@ Location Logic: Haversine Formula
 📂 Project Structure
 project/
 │
+
 ├── app.py
+
 ├── database.db
+
 ├── templates/
+
 │   ├── home.html
+
 │   ├── login.html
+
 │   ├── list.html
+
 │   ├── browse.html
+
 │   ├── request.html
+
 │   ├── my_machines.html
+
 │   ├── orders.html
+
 │
+
 └── static/
 
 
